@@ -144,7 +144,7 @@ export default function CIMForm(props: MenuProps) {
 				{errors.fifthDivision && <p>{errors.fifthDivision.message}</p>}
 			</div>
 
-			<button type="submit">Submit</button>
+			<button type="submit">Ver área</button>
 		</form>
 	);
 }

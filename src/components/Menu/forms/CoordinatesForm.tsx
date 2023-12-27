@@ -65,7 +65,7 @@ export default function CoordinatesForm(props: MenuProps) {
 				{errors.longitude && <p>{errors.longitude.message}</p>}
 			</div>
 
-			<button type="submit">Submit</button>
+			<button type="submit">Ver local</button>
 		</form>
 	);
 }
