@@ -66,6 +66,11 @@ export const MenuContainer = styled.div`
 			background-color: ${(props) => props.theme.primary};
 			color: ${(props) => props.theme.primaryText};
 			cursor: pointer;
+			transition: all 0.25s ease-in-out;
+
+			&:hover {
+				background-color: ${(props) => props.theme.primaryHighlight};
+			}
 		}
 	}
 `;
@@ -90,5 +95,10 @@ export const Option = styled.button<OptionI>`
 	border-radius: 0.5rem;
 	cursor: pointer;
 	transition: all 0.25s ease-in-out;
+
+	&:hover {
+		background-color: ${(props) => props.theme.primaryHighlight};
+		color: ${(props) => props.theme.primaryText};
+	}
 `;
 

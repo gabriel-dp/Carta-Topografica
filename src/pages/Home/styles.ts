@@ -27,7 +27,7 @@ export const Panel = styled.div<PanelI>`
 	left: 0;
 
 	.arrow {
-		transform: rotate(${(props) => (props.$isopen == "true" ? 45 : 225)}deg);
+		transform: rotate(${(props) => (props.$isopen == "true" ? 45 : -135)}deg);
 	}
 `;
 
