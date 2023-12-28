@@ -48,6 +48,7 @@ export default function Map(props: MapI) {
 				mapRef.current.setView(props.localPoint.createLeafletPoint(), 5);
 			} else if (props.localArea) {
 				mapRef.current.fitBounds(props.localArea?.createLeafletBounds());
+				mapRef.current.zoomOut(1);
 			}
 		}
 	}, [props.localPoint, props.localArea]);
