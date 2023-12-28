@@ -35,7 +35,7 @@ export default function Map(props: MapI) {
 					Lng: {clickedPosition.lng.toFixed(6)}
 					<br />
 					<button className="remove-marker" onClick={() => setClickedPosition(null)}>
-						Fechar
+						Remover
 					</button>
 				</Popup>
 			</Marker>

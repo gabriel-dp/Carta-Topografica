@@ -30,7 +30,10 @@ export default function Menu(props: MenuProps) {
 		<MenuContainer>
 			<OptionsMenu>
 				{Object.keys(OPTIONS).map((option) => (
-					<Option key={option} onClick={() => handleOptionClick(option)}>
+					<Option
+						key={option}
+						onClick={() => handleOptionClick(option)}
+						$selected={(selectedOption == option).toString()}>
 						{option}
 					</Option>
 				))}

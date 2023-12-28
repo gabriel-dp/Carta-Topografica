@@ -75,17 +75,18 @@ export const OptionsMenu = styled.div`
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 1rem;
-
-	button {
-		flex-grow: 1;
-	}
 `;
 
-export const Option = styled.button`
+interface OptionI {
+	$selected: string;
+}
+
+export const Option = styled.button<OptionI>`
+	flex-grow: 1;
 	padding: 0.5rem 1rem;
-	background-color: ${(props) => props.theme.primary};
-	color: ${(props) => props.theme.primaryText};
-	border: none;
+	background-color: ${(props) => (props.$selected == "true" ? props.theme.primary : props.theme.primaryText)};
+	color: ${(props) => (props.$selected == "true" ? props.theme.primaryText : props.theme.primary)};
+	border: 1px solid ${(props) => props.theme.primary};
 	border-radius: 0.5rem;
 	cursor: pointer;
 	transition: all 0.25s ease-in-out;

@@ -22,7 +22,7 @@ export const Panel = styled.div<PanelI>`
 
 	z-index: 1;
 	position: absolute;
-	top: ${(props) => (props.$isopen == "true" ? "40%" : "calc(100% - 1.5rem)")};
+	top: ${(props) => (props.$isopen == "true" ? "5rem;" : "calc(100% - 1.5rem)")};
 	bottom: 0;
 	left: 0;
 
