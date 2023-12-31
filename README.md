@@ -30,9 +30,9 @@
 
 ## 💡 Motivation
 
-This project aims to display the different map projections of the systematic topographic mapping of Brazil.
+This project aims to display the different cartographic projections of the systematic topographic mapping of Brazil.
 
-"Cartas Topográficas" are detailed maps that show the physical characteristics of an area, including elevation, terrain, and human-made features.
+"Cartas Topográficas" (Topographic Maps) are detailed maps that show the physical characteristics of an area, including elevation, terrain, and human-made features.
 
 They are crucial for navigation, planning, and analyzing geographical landscapes due to their accuracy in representing natural and artificial elements such as mountains, rivers, roads, and settlements.
 
