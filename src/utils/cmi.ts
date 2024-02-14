@@ -2,8 +2,8 @@ import { Point, Area } from "@/utils/maps";
 
 export type CMIdata = {
 	hemisphere: string;
-	range: string | null;
-	zone: number | null;
+	range: string;
+	zone: string;
 	firstDivision: string | null;
 	secondDivision: string | null;
 	thirdDivision: string | null;
@@ -49,8 +49,8 @@ export function convertCMItoCoords(props: CMIdata): Area | undefined {
 	}
 
 	if (props.zone) {
-		area.setLeft((props.zone - 31) * 6);
-		area.setRight((props.zone - 30) * 6);
+		area.setLeft((parseInt(props.zone) - 31) * 6);
+		area.setRight((parseInt(props.zone) - 30) * 6);
 	}
 
 	switch (props.firstDivision) {
@@ -136,4 +136,3 @@ export function convertCMItoCoords(props: CMIdata): Area | undefined {
 
 	return area;
 }
-

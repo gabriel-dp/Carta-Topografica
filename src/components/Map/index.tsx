@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { MapContainer, Rectangle, Marker, TileLayer, useMapEvents, Popup } from "react-leaflet";
 import L from "leaflet";
 
-import { Point, Area } from "@/utils/maps";
+import { Area } from "@/utils/maps";
 
 import { MainMapContainer } from "./styles";
 
 interface MapI {
-	localPoint?: Point;
 	localArea?: Area;
 }
 
@@ -44,14 +43,12 @@ export default function Map(props: MapI) {
 
 	useEffect(() => {
 		if (mapRef.current) {
-			if (props.localPoint) {
-				mapRef.current.setView(props.localPoint.createLeafletPoint(), 5);
-			} else if (props.localArea) {
+			if (props.localArea) {
 				mapRef.current.fitBounds(props.localArea?.createLeafletBounds());
 				mapRef.current.zoomOut(1);
 			}
 		}
-	}, [props.localPoint, props.localArea]);
+	}, [props.localArea]);
 
 	return (
 		<MainMapContainer>
@@ -66,10 +63,8 @@ export default function Map(props: MapI) {
 				doubleClickZoom={false}>
 				<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" noWrap />
 				<AddMarkerClick />
-				{props.localPoint && <Marker position={props.localPoint.createLeafletPoint()} />}
 				{props.localArea && <Rectangle bounds={props.localArea.createLeafletBounds()} />}
 			</MapContainer>
 		</MainMapContainer>
 	);
 }
-

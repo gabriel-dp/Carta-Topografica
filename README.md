@@ -48,6 +48,12 @@ This project uses [Leaflet](https://leafletjs.com/) map JS library to render the
 
 ## 🖥️ Running the project
 
+Clone the repository:
+
+```bash
+git clone https://github.com/gabriel-dp/Carta-Topografica.git
+```
+
 Install the dependencies:
 
 ```bash

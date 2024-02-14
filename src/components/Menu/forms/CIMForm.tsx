@@ -4,6 +4,54 @@ import { useForm } from "react-hook-form";
 import { CMIdata, convertCMItoCoords } from "@/utils/cmi";
 import { MenuProps } from "@/components/Menu";
 
+const INPUTS: { [key: string]: { name: string; options: string[]; default?: string; required: boolean } } = {
+	hemisphere: {
+		name: "Hemisfério",
+		options: ["N", "S"],
+		default: "S",
+		required: true,
+	},
+	range: {
+		name: "Zona",
+		options: Array.from({ length: 20 }, (_, i) => String.fromCharCode("A".charCodeAt(0) + i)),
+		default: "D",
+		required: true,
+	},
+	zone: {
+		name: "Fuso",
+		options: Array.from({ length: 60 }, (_, i) => (i + 1).toString()),
+		default: "24",
+		required: true,
+	},
+	firstDivision: {
+		name: "1ª divisão",
+		options: ["V", "X", "Y", "Z"],
+		required: false,
+	},
+	secondDivision: {
+		name: "2ª divisão",
+		options: ["A", "B", "C", "D"],
+		required: false,
+	},
+	thirdDivision: {
+		name: "3ª divisão",
+		options: ["I", "II", "III", "IV", "V", "VI"],
+		required: false,
+	},
+	fourthDivision: {
+		name: "4ª divisão",
+		options: ["1", "2", "3", "4"],
+		required: false,
+	},
+	fifthDivision: {
+		name: "5ª divisão",
+		options: ["NO", "NE", "SO", "SE"],
+		required: false,
+	},
+};
+
+const NULL_VALUE = "-";
+
 export default function CIMForm(props: MenuProps) {
 	const {
 		register,
@@ -13,14 +61,6 @@ export default function CIMForm(props: MenuProps) {
 		setValue,
 	} = useForm<CMIdata>();
 
-	const onSubmit = (data: CMIdata) => {
-		props.setLocalPoint(undefined);
-		props.setLocalArea(convertCMItoCoords(data));
-		props.closePanel();
-	};
-
-	const watchRange = watch("range");
-	const watchZone = watch("zone");
 	const watchFirstDivision = watch("firstDivision");
 	const watchSecondDivision = watch("secondDivision");
 	const watchThirdDivision = watch("thirdDivision");
@@ -28,124 +68,41 @@ export default function CIMForm(props: MenuProps) {
 	const watchFifthDivision = watch("fifthDivision");
 
 	useEffect(() => {
-		if (!watchRange) setValue("zone", null);
-		if (!watchZone) setValue("firstDivision", null);
-		if (!watchFirstDivision) setValue("secondDivision", null);
-		if (!watchSecondDivision) setValue("thirdDivision", null);
-		if (!watchThirdDivision) setValue("fourthDivision", null);
-		if (!watchFourthDivision) setValue("fifthDivision", null);
-	}, [
-		setValue,
-		watchRange,
-		watchZone,
-		watchFirstDivision,
-		watchSecondDivision,
-		watchThirdDivision,
-		watchFourthDivision,
-		watchFifthDivision,
-	]);
+		const isNull = (value: string | null) => !value || value == NULL_VALUE;
+		if (isNull(watchFirstDivision)) setValue("secondDivision", NULL_VALUE);
+		if (isNull(watchSecondDivision)) setValue("thirdDivision", NULL_VALUE);
+		if (isNull(watchThirdDivision)) setValue("fourthDivision", NULL_VALUE);
+		if (isNull(watchFourthDivision)) setValue("fifthDivision", NULL_VALUE);
+	}, [setValue, watchFirstDivision, watchSecondDivision, watchThirdDivision, watchFourthDivision, watchFifthDivision]);
+
+	const onSubmit = (data: CMIdata) => {
+		props.setLocalArea(convertCMItoCoords(data));
+		props.closePanel();
+	};
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<div>
-				<label htmlFor="hemisphere">Hemisfério</label>
-				<select id="hemisphere" {...register("hemisphere", { required: "Hemisphere is required" })}>
-					<option value="N">N</option>
-					<option value="S">S</option>
-				</select>
-				{errors.hemisphere && <p>{errors.hemisphere.message}</p>}
-			</div>
-
-			<div>
-				<label htmlFor="range">Faixa</label>
-				<select id="range" {...register("range")}>
-					<option value="">-</option>
-					{Array.from({ length: 20 }, (_, i) => String.fromCharCode("A".charCodeAt(0) + i)).map((letter) => (
-						<option key={letter} value={letter}>
-							{letter}
-						</option>
-					))}
-				</select>
-				{errors.range && <p>{errors.range.message}</p>}
-			</div>
-
-			<div>
-				<label htmlFor="zone">Fuso</label>
-				<input
-					type="number"
-					id="zone"
-					{...register("zone", {
-						min: { value: 1, message: "Enter a number between 1 and 60" },
-						max: { value: 60, message: "Enter a number between 1 and 60" },
-					})}
-				/>
-				{errors.zone && <p>{errors.zone.message}</p>}
-			</div>
-
-			<div>
-				<label htmlFor="firstDivision">Primeira divisão</label>
-				<select id="firstDivision" {...register("firstDivision")}>
-					<option value="">-</option>
-					<option value="V">V</option>
-					<option value="X">X</option>
-					<option value="Y">Y</option>
-					<option value="Z">Z</option>
-				</select>
-				{errors.firstDivision && <p>{errors.firstDivision.message}</p>}
-			</div>
-
-			<div>
-				<label htmlFor="secondDivision">Segunda divisão</label>
-				<select id="secondDivision" {...register("secondDivision")}>
-					<option value="">-</option>
-					<option value="A">A</option>
-					<option value="B">B</option>
-					<option value="C">C</option>
-					<option value="D">D</option>
-				</select>
-				{errors.secondDivision && <p>{errors.secondDivision.message}</p>}
-			</div>
-
-			<div>
-				<label htmlFor="thirdDivision">Terceira divisão</label>
-				<select id="thirdDivision" {...register("thirdDivision")}>
-					<option value="">-</option>
-					<option value="I">I</option>
-					<option value="II">II</option>
-					<option value="III">III</option>
-					<option value="IV">IV</option>
-					<option value="V">V</option>
-					<option value="VI">VI</option>
-				</select>
-				{errors.thirdDivision && <p>{errors.thirdDivision.message}</p>}
-			</div>
-
-			<div>
-				<label htmlFor="fourthDivision">Quarta divisão</label>
-				<select id="fourthDivision" {...register("fourthDivision")}>
-					<option value="">-</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-				</select>
-				{errors.fourthDivision && <p>{errors.fourthDivision.message}</p>}
-			</div>
-
-			<div>
-				<label htmlFor="fifthDivision">Quinta divisão</label>
-				<select id="fifthDivision" {...register("fifthDivision")}>
-					<option value="">-</option>
-					<option value="NO">NO</option>
-					<option value="NE">NE</option>
-					<option value="SO">SO</option>
-					<option value="SE">SE</option>
-				</select>
-				{errors.fifthDivision && <p>{errors.fifthDivision.message}</p>}
-			</div>
-
+			{Object.keys(INPUTS).map((inputKey) => {
+				const input = INPUTS[inputKey as keyof typeof INPUTS];
+				return (
+					<div key={inputKey}>
+						<label htmlFor={inputKey}>{input.name}</label>
+						<select
+							id={inputKey}
+							{...register(inputKey as keyof CMIdata, { required: input.required })}
+							defaultValue={input.default}>
+							{!input.required && <option>{NULL_VALUE}</option>}
+							{input.options.map((value) => (
+								<option key={value} value={value}>
+									{value}
+								</option>
+							))}
+						</select>
+						{errors[inputKey as keyof CMIdata] && <p>Necessário informar {input.name}</p>}
+					</div>
+				);
+			})}
 			<button type="submit">Ver área</button>
 		</form>
 	);
 }
-
